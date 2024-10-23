@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     docker.image('sonarsource/sonar-scanner-cli:latest').inside('-v /tmp:/tmp') {
-                        withSonarQubeEnv('sonarcloud') {
+                        withSonarQubeEnv('SonarCloud') {
                             sh '''
                             sonar-scanner \
                                 -Dsonar.projectKey=cuellarq_devopsclass \
