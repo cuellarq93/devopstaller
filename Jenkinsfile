@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     docker.image('python:3.9.20-alpine').inside {
-                        withSonarQubeEnv('ingfrecab') {
+                        withSonarQubeEnv('SonarCloud') {
                             sh '''sonar-scanner \
                                 -Dsonar.projectKey=cuellarq_devopsclass \
                                 -Dsonar.organization=cuellarq \
