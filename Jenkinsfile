@@ -15,10 +15,6 @@ pipeline {
                         sh 'pip install coverage'
                     }
                 }
-                script {
-
-                }
-
             }
         }
         stage('test') {
@@ -53,17 +49,6 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-        stage('sonar') {
-            steps {
-		        script {
-                    docker.image('imagendocker').inside {
-                        echo 'mensaje'
-                        sh 'comando'
-                    }
-                }
-
             }
         }
     }
