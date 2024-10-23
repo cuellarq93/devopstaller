@@ -82,7 +82,7 @@ pipeline {
             }
         }
 
-        Condicional ramas va despues del stage y antes del step
+        //Condicional ramas va despues del stage y antes del step
 
             when {
                 anyOf {
