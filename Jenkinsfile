@@ -52,11 +52,11 @@ pipeline {
         stage('deploy aws') {
 
             steps {
-                echo 'set imageName'
-                script{
-                    def imageName = 'darkaru/sam:1.33-amd'
-                    docker.build(imageName)
-                }
+//                 echo 'set imageName'
+//                 script{
+//                     def imageName = 'darkaru/sam:1.33-amd'
+//                     docker.build(imageName)
+//                 }
                 echo 'run serenity'
                 sh 'mvn serenity:aggregate'
                 script {
