@@ -10,9 +10,6 @@ pipeline {
                     docker.image('python:3.9.20-alpine').inside {
                         echo 'install requirements'
                         sh 'pip3 install -r requirements.txt -t .'
-
-                        echo 'install coverage'
-                        sh 'pip install coverage'
                     }
                 }
             }
@@ -20,6 +17,8 @@ pipeline {
         stage('test') {
             steps {
                 script {
+                   echo 'install coverage'
+                   sh 'pip install coverage'
                    echo 'run coverage'
                    sh 'coverage run -m unittest discover -s tests'
                    echo 'coverage to xml'
