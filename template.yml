@@ -1,10 +1,10 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  LambdaExecutionRole:
+  StMurilloRExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: LambdaExecutionRole
+      RoleName: StMurilloRExecutionRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -24,12 +24,12 @@ Resources:
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:*:*:*
 
-  MockLambdaFunction:
+  StMurilloRMockLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: MockLambdaFunction
+      FunctionName: StMurilloRMockLambdaFunction
       Handler: lambda_function.lambda_handler
-      Role: !GetAtt LambdaExecutionRole.Arn
+      Role: !GetAtt StMurilloRLambdaExecutionRole.Arn
       CodeUri: ./src  # Directorio local donde está el código de la Lambda
       Runtime: python3.9
       MemorySize: 512
