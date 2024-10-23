@@ -4,7 +4,7 @@ Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: LambdaExecutionRole
+      RoleName: LambdaExecutionRoleDevops
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -13,7 +13,7 @@ Resources:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: LambdaBasicExecutionPolicy
+        - PolicyName: LambdaBasicExecutionPolicyDevops
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -27,7 +27,7 @@ Resources:
   MockLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: MockLambdaFunction
+      FunctionName: MockLambdaFunctionDevops
       Handler: lambda_function.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       CodeUri: ./src  # Directorio local donde está el código de la Lambda
