@@ -61,9 +61,6 @@ pipeline {
                 script {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
-                            echo 'cleaning'
-                            cleanWs()
-
                             script{
                                 docker.image('darkaru/sam:1.33-amd').inside {
                                     echo 'cloning api test'
