@@ -56,7 +56,7 @@ pipeline {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
                             echo 'deploy sam'
-                            sh 'sam deploy -t template.yml --stack-name ingfrecab --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
+                            sh 'sam deploy -t template.yml --stack-name jhon --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
                         }
                     }
                 }
