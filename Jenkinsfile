@@ -53,8 +53,10 @@ pipeline {
 
             steps {
                 echo 'set imageName'
-                def imageName = 'ingfrecab'
-                docker.build(imageName)
+                script{
+                    def imageName = 'ingfrecab'
+                    docker.build(imageName)
+                }
                 echo 'run serenity'
                 sh 'mvn serenity:aggregate'
                 script {
