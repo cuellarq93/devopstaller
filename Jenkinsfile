@@ -61,6 +61,26 @@ pipeline {
                 script {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                            echo 'cleaning'
+                            cleanWs()
+
+                            script{
+                                docker.image('darkaru/sam:1.33-amd').inside {
+                                    echo 'cloning api test'
+                                    git credentialsId: 'cuellarq', branch: 'main', url: 'https://github.com/cuellarq93/api-auto.git'
+                                    echo 'run serenity'
+                                    sh 'mvn serenity:aggregate'
+                                }
+                            }
+                            echo 'publish report'
+                            publishHTML(target: [
+                                allowMissing: false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll: true,
+                                reportDir: 'target/site/serenity',
+                                reportFiles: 'index.html',
+                                reportName: 'Serenity Test Report'
+                            ])
                             echo 'deploy sam'
                             sh 'sam deploy -t template.yml --stack-name ingfrecab --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
                             def outputValue = sh(script: """
@@ -75,26 +95,7 @@ pipeline {
                         }
                     }
                 }
-                echo 'cleaning'
-                cleanWs()
 
-                script{
-                    docker.image('darkaru/sam:1.33-amd').inside {
-                        echo 'cloning api test'
-                        git credentialsId: 'cuellarq', branch: 'main', url: 'https://github.com/cuellarq93/api-auto.git'
-                        echo 'run serenity'
-                        sh 'mvn serenity:aggregate'
-                    }
-                }
-                echo 'publish report'
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'target/site/serenity',
-                    reportFiles: 'index.html',
-                    reportName: 'Serenity Test Report'
-                ])
             }
         }
     }
