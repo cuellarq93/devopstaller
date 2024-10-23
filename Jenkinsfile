@@ -61,22 +61,17 @@ pipeline {
         } 
 
     
-        stage('Deploy') {
-            when {
-                anyOf {
-                    branch 'branch-StMurilloR'
-                }
-            }
+        
+        stage('Deply') {
 
-    
             steps {
                 script {
-                    docker.image('darkaru/sam:1.33-amd').inside('-v /tmp:/tmp') {
+                    docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
                             echo 'Deploying App with AWS..'
                             sh '''
                                 sam deploy -t template.yml \
-                                --stack-name StMurilloR \
+                                --stack-name branch-StMurilloR \
                                 --region us-east-1 \
                                 --capabilities CAPABILITY_NAMED_IAM \
                                 --resolve-s3
