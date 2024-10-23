@@ -54,7 +54,7 @@ pipeline {
             steps {
                 echo 'set imageName'
                 script{
-                    def imageName = 'ingfrecab'
+                    def imageName = 'darkaru/sam:1.33-amd'
                     docker.build(imageName)
                 }
                 echo 'run serenity'
