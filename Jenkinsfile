@@ -20,12 +20,10 @@ pipeline {
         stage('test') {
             steps {
                 script {
-                    docker.image('python:3.9.20-alpine').inside {
-                        echo 'run coverage'
-                        sh 'coverage run -m unittest discover -s tests'
-                        echo 'coverage to xml'
-                        sh 'coverage xml -o coverage.xml'
-                    }
+                   echo 'run coverage'
+                   sh 'coverage run -m unittest discover -s tests'
+                   echo 'coverage to xml'
+                   sh 'coverage xml -o coverage.xml'
 
                 }
             }
