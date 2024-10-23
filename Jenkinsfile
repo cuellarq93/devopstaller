@@ -57,18 +57,18 @@ pipeline {
 //                     def imageName = 'darkaru/sam:1.33-amd'
 //                     docker.build(imageName)
 //                 }
-
+                script{
+                    docker.image('darkaru/sam:1.33-amd').inside {
+                    echo 'cloning api test'
+                    git credentialsId: 'cuellarq', branch: 'main', url: 'https://github.com/cuellarq93/api-auto.git'
+                    echo 'run serenity'
+                    sh 'mvn serenity:aggregate'
+                    }
+                }
                 script {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
-                            script{
-                                docker.image('darkaru/sam:1.33-amd').inside {
-                                    echo 'cloning api test'
-                                    git credentialsId: 'cuellarq', branch: 'main', url: 'https://github.com/cuellarq93/api-auto.git'
-                                    echo 'run serenity'
-                                    sh 'mvn serenity:aggregate'
-                                }
-                            }
+
                             echo 'publish report'
                             publishHTML(target: [
                                 allowMissing: false,
