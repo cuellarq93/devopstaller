@@ -33,7 +33,7 @@ pipeline {
         stage('sonar') {
             steps {
                 script {
-                    docker.image('python:3.9.20-alpine').inside {
+                    docker.image('sonarsource/sonar-scanner-cli:latest').inside {
                         withSonarQubeEnv('SonarCloud') {
                             sh '''sonar-scanner \
                                 -Dsonar.projectKey=cuellarq_devopsclass \
