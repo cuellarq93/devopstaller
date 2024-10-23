@@ -57,8 +57,10 @@ pipeline {
 //                     def imageName = 'darkaru/sam:1.33-amd'
 //                     docker.build(imageName)
 //                 }
-                echo 'run serenity'
-                sh 'mvn serenity:aggregate'
+                docker.image('darkaru/sam:1.33-amd').inside {
+                    echo 'run serenity'
+                    sh 'mvn serenity:aggregate'
+                }
                 script {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
