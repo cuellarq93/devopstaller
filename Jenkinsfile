@@ -62,7 +62,7 @@ pipeline {
 
     
         
-        stage('Deply') {
+        stage('Deploy') {
 
             steps {
                 script {
@@ -81,5 +81,13 @@ pipeline {
                 }
             }
         }
+
+        Condicional ramas va despues del stage y antes del step
+
+            when {
+                anyOf {
+                    branch 'branch-StMurilloR'
+                }
+            }
     }
 }
