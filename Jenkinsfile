@@ -1,11 +1,13 @@
 pipeline {
-    agent any 
+    agent {
+        node 'Santiago H.'
+    }
 
     stages {
-        stage('Hola Mundo') {
+        stage('santiagohear') {
             steps {
                 script {
-                    echo '¡Hola Mundo!'
+                    echo '¡Hola Mundo! santiago'
                 }
             }
         }
