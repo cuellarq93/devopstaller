@@ -8,19 +8,20 @@ pipeline {
             steps {
                 script {
                     echo 'Build'
-                    sh 'pip3 install -r requirements.txt -t .'
+		     docker.image('python:3.9.20-alpine').inside {
+                          sh 'pip3 install -r requirements.txt -t .'
+                    }
+                
                 }
             }
         }
         stage('Test') {
             steps {
-		        script {
-                    docker.image('python:3.9.20-alpine').inside {
-                        echo 'Test'
-                        sh 'pip install coverage'
-                        sh 'coverage run -m unittest discover -s tests'
-                        sh 'coverage xml -o coverage.xml'
-                    }
+		script {                   
+			echo 'Test'
+			sh 'pip install coverage'
+			sh 'coverage run -m unittest discover -s tests'
+			sh 'coverage xml -o coverage.xml'                    
                 }
 
             }
@@ -46,12 +47,12 @@ pipeline {
                 }
             }
         } 
-        stage('Deply') {
+        stage('Deploy') {
             steps {
                 script {
                     docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'envopassausar']]) {
-                            echo 'Deply'
+                            echo 'Deploy'
                             sh 'sam deploy -t template.yml --stack-name aws --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
                         }
                     }
