@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node 'nombre agente'
+        node 'agent'
     }
 
     stages {
