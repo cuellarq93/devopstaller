@@ -4,25 +4,25 @@ pipeline {
     }
 
     stages {
-         stage('script') {
+        stage('script') {
             steps {
                 script {
                     echo 'mensaje'
-                    sh 'comando'
+                    sh 'comando' 
                 }
             }
         }
 
         stage('imagendocker') {
             steps {
-		        script {
+                script {
                     docker.image('imagendocker').inside {
                         echo 'mensaje'
                         sh 'comando'
                     }
                 }
-
             }
         }       
     }
 }
+
