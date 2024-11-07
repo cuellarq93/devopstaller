@@ -1,20 +1,17 @@
 pipeline {
     agent {
-        node 'prueba-ivan'
+        node 'agent'
     }
 
     stages {
         
 
-           stage('docker-ivan') {
+           stage('Script Docker') {
 
             steps {
                 script {
                     docker.image('python:3.9.20-alpine').inside {
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'envopassausar']]) {
-                            echo 'mensaje'
-                            sh 'comando'
-                        }
+                        sh 'pip3 install -r requirements.txt -t'
                     }
                 }
             }
