@@ -11,7 +11,9 @@ pipeline {
             steps {
                 script {
                     docker.image('python:3.9.20-alpine').inside {
-                        sh 'pip3 install -r requirements.txt -t'
+                       sh '''
+                            pip install -r requirements.txt -t .
+                        '''
                     }
                 }
             }
