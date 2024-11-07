@@ -9,7 +9,7 @@ pipeline {
                 }
             }
         }
-         stage('build') {
+        stage('build') {
             steps {
                 script {
                     echo 'Instalando dependencias...'
