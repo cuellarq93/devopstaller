@@ -1,13 +1,28 @@
 pipeline {
-    agent any 
+    agent {
+        node 'ivanmolina20225'
+    }
 
     stages {
-        stage('Hola Mundo') {
+         stage('script') {
             steps {
                 script {
-                    echo '¡Hola Mundo!'
+                    echo 'mensaje'
+                    sh 'comando'
                 }
             }
         }
+
+        stage('imagendocker') {
+            steps {
+		        script {
+                    docker.image('imagendocker').inside {
+                        echo 'mensaje'
+                        sh 'comando'
+                    }
+                }
+
+            }
+        }       
     }
 }
