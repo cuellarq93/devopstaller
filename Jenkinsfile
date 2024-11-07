@@ -59,6 +59,56 @@ pipeline {
                 }
             }
         }
-
+        stage('Clear WS') {
+            steps {
+                script {
+                    cleanWs()
+                }
+            }
+        }
+        stage('Clone repository') {
+            steps {
+                script {
+                    git credentialsId: 'cuellarq', branch: 'main', url: 'https://github.com/cuellarq93/api-auto.git'
+                }
+            }
+        }
+        stage('Build image') {
+            steps {
+                script {
+                    def imageName = 'menesesd'
+                    docker.build(imageName)
+                }
+            }
+        }
+        stage('OutPut value') {
+            steps {
+                script {
+                    def outputValue = sh(script: """
+                            aws cloudformation describe-stacks \
+                            --stack-name menesesd \
+                            --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' \
+                            --output text \
+                            --region us-east-1""",
+                        returnStdout: true)
+                        echo "Output value is: ${outputValue}"
+                        env.OUTPUT_VALUE = outputValue
+                }
+            }
+        }
+        stage('Publih') {
+            steps {
+                script {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'target/site/serenity',
+                        reportFiles: 'index.html',
+                        reportName: 'Serenity Test Report'
+                    ])
+                }
+            }
+        }
     }
 }
