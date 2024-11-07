@@ -81,6 +81,13 @@ pipeline {
                 }
             }
         }
+        stage('Test image') {
+            steps {
+                script {
+                   sh 'mvn serenity:aggregate'
+                }
+            }
+        }
         stage('OutPut value') {
             steps {
                 script {
