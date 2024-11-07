@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node 'ivanmolina20225'
+        node 'prueba-ivan'
     }
 
     stages {
