@@ -18,7 +18,7 @@ agent {
 
 Stage simple
 
-        stage('nombre stage') {
+        stage('devopsBullgrof') {
             steps {
                 script {
                     echo 'mensaje'
@@ -28,7 +28,7 @@ Stage simple
         }
 Stage con docker
 
-        stage('nombre stage') {
+        stage('devopsBullgrof') {
             steps {
 		        script {
                     docker.image('python:3.9.20-alpine').inside {
@@ -40,7 +40,7 @@ Stage con docker
             }
         }
 
-stage('nombre stage') {
+stage('devopsBullgrof') {
             steps {
                 script {
                     docker.image('sonarsource/sonar-scanner-cli:latest').inside {
@@ -62,11 +62,11 @@ stage('nombre stage') {
             }
         } 
 
- stage('nombre stage') {
+ stage('devopsBullgrof') {
 
             steps {
                 script {
-                    docker.image('imagendocker').inside {
+                    docker.image('darkaru/sam:1.33-amd').inside {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
                             echo 'mensaje'
                             sh 'comando'
