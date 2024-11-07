@@ -78,13 +78,9 @@ pipeline {
                 script {
                     def imageName = 'menesesd'
                     docker.build(imageName)
-                }
-            }
-        }
-        stage('Test image') {
-            steps {
-                script {
-                   sh 'mvn serenity:aggregate'
+                    docker.image(imageName).inside {
+                          sh 'mvn serenity:aggregate'
+                    }
                 }
             }
         }
