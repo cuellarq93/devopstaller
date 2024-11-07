@@ -31,7 +31,7 @@ Stage con docker
         stage('nombre stage') {
             steps {
 		        script {
-                    docker.image('imagendocker').inside {
+                    docker.image('python:3.9.20-alpine').inside {
                         echo 'mensaje'
                         sh 'pip install coverage'
                     }
@@ -39,3 +39,48 @@ Stage con docker
 
             }
         }
+
+stage('nombre stage') {
+            steps {
+                script {
+                    docker.image('sonarsource/sonar-scanner-cli:latest').inside {
+                        withSonarQubeEnv('envopassausar') {
+                            sh '''sonar-scanner \
+                                -Dsonar.projectKey=cuellarq_devopsclass \
+                                -Dsonar.organization=cuellarq \
+                                -Dsonar.host.url=https://sonarcloud.io \
+                                -Dsonar.login=$SONAR_TOKEN \
+                                -Dsonar.sources=src/ \
+                                -Dsonar.language=py \
+                                -Dsonar.sources=src \
+                                -Dsonar.tests=tests \
+                                -Dsonar.test.inclusions=**/*_test.py \
+                                -Dsonar.python.coverage.reportPaths=coverage.xml'''
+                        }
+                    }
+                }
+            }
+        } 
+
+ stage('nombre stage') {
+
+            steps {
+                script {
+                    docker.image('imagendocker').inside {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                            echo 'mensaje'
+                            sh 'comando'
+                        }
+                    }
+                }
+            }
+        }
+
+
+  when {
+                anyOf {
+                    branch 'nombrerama'
+                    branch 'nombrerama'
+                    branch 'nombrerama'
+                }
+            }
