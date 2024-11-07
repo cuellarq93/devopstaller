@@ -48,5 +48,17 @@ pipeline {
                 }
             }
         } 
+	stage('Deploy') {
+            steps {
+                script {
+                    docker.image('darkaru/sam:1.33-amd').inside {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                            echo 'deploy'
+                            sh 'sam deploy -t template.yml --stack-name nombreusuario --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
+                        }
+                    }
+                }
+            }
+	}
     }
 }
