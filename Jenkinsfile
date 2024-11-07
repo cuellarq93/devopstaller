@@ -47,18 +47,6 @@ pipeline {
                 }
             }
         } 
-        stage('Deploy') {
-            steps {
-                script {
-                    docker.image('darkaru/sam:1.33-amd').inside {
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
-                            echo 'Deploy'
-                            sh 'sam deploy -t template.yml --stack-name menesesd --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
-                        }
-                    }
-                }
-            }
-        }
         stage('Clear WS') {
             steps {
                 script {
@@ -84,18 +72,25 @@ pipeline {
                 }
             }
         }
-        stage('OutPut value') {
+
+        stage('Deploy') {
             steps {
                 script {
-                    def outputValue = sh(script: """
-                            aws cloudformation describe-stacks \
-                            --stack-name menesesd \
-                            --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' \
-                            --output text \
-                            --region us-east-1""",
-                        returnStdout: true)
-                        echo "Output value is: ${outputValue}"
-                        env.OUTPUT_VALUE = outputValue
+                    docker.image('darkaru/sam:1.33-amd').inside {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws']]) {
+                            echo 'Deploy'
+                            sh 'sam deploy -t template.yml --stack-name menesesd --region us-east-1 --capabilities CAPABILITY_NAMED_IAM --resolve-s3'
+                            def outputValue = sh(script: """
+                                    aws cloudformation describe-stacks \
+                                    --stack-name menesesd \
+                                    --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' \
+                                    --output text \
+                                    --region us-east-1""",
+                                returnStdout: true)
+                                echo "Output value is: ${outputValue}"
+                                env.OUTPUT_VALUE = outputValue
+                                }
+                    }
                 }
             }
         }
