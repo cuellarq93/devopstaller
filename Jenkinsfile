@@ -70,5 +70,10 @@ pipeline {
                 }
             }
         }
+        when {
+                anyOf {
+                    branch 'dev-sebs'
+                }
+            }
     }
 }
