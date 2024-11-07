@@ -4,25 +4,21 @@ pipeline {
     }
 
     stages {
-        stage('script') {
-            steps {
-                script {
-                    echo 'mensaje'
-                    sh 'comando' 
-                }
-            }
-        }
+        
 
-        stage('imagendocker') {
+           stage('docker-ivan') {
+
             steps {
                 script {
-                    docker.image('imagendocker').inside {
-                        echo 'mensaje'
-                        sh 'comando'
+                    docker.image('python:3.9.20-alpine').inside {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'envopassausar']]) {
+                            echo 'mensaje'
+                            sh 'comando'
+                        }
                     }
                 }
             }
-        }       
+        }    
     }
 }
 
